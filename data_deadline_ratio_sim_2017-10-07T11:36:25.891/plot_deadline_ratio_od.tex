@@ -1,0 +1,58 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+
+\begin{document}
+
+\pgfplotsset{compat = 1.10}
+\pgfplotstableread[col sep = space]{data.txt}\data
+
+\begin{tikzpicture}
+\begin{axis}[
+    % title = {Average utility from the Monte Carlo Simulation},
+    width=9cm,
+    height=4cm,
+    scale only axis,
+    xmode = log,
+    % ylabel = Utility $U(t)$,
+    xtick = {10, 100, 1000},
+    xticklabels= {$10$, $10^2$, $10^3$},
+    y tick label style = {
+      /pgf/number format/.cd,
+      fixed,
+      fixed zerofill,
+      precision=2,
+      /tikz/.cd},
+    scaled y ticks = false,
+    % ymin = 0, ymax = 0.05,
+    legend pos = south east,
+    legend columns = 3,
+    xlabel = $\Delta_i / D_i$,
+    ylabel = percent (\%)
+    ]
+
+\addplot[only marks, green!30] 
+         plot[error bars/.cd, y dir = both, y explicit]
+         table[x=ratio, y expr=\thisrow{discarded}*100, y error expr=\thisrow{discarded_var}*100
+         ]{\data};
+\addplot[only marks, orange!30] 
+         plot[error bars/.cd, y dir = both, y explicit]
+         table[x=ratio, y expr=\thisrow{overallocation}*100, y error expr=\thisrow{overallocation_var}*100]{\data};
+
+% \addplot[fill=green!30] table[x=sim, y=e_mean]{\data};
+% \addplot[fill=orange!30] table[x=sim, y=a_mean]{\data};
+
+\addlegendentry{disacrded}
+\addlegendentry{overallocation}
+
+
+\end{axis}
+\end{tikzpicture}
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

@@ -1,0 +1,76 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usetikzlibrary{calc}
+
+\pgfplotsset{compat = 1.10}
+
+% load the path-wise input data
+\pgfplotstableread[col sep = space]{data.txt}\data
+
+
+\begin{document}
+\begin{tikzpicture}
+  \begin{axis}[
+    width = 8cm,
+    height = 3cm,
+    scale only axis,
+    y tick label style={/pgf/number format/.cd,%
+          scaled y ticks = false,
+          set thousands separator={\,},
+          fixed},
+    xmin = 0, xmax = 5,
+    ytick = {0, 5000000, 10000000},
+    % axis y line*=left,
+    legend cell align =left,
+    ymin = 0, ymax = 10000000,
+    ylabel = input rate (pps),
+    xlabel = time (hours),
+    legend columns = 4,
+    % ytick = {0, 500, 1000},
+    % yticklabels = {0, $5\cdot10^6$, $10\cdot10^6$},
+    legend style = {at = {(1, 1.05)}, anchor = south east}
+    ]
+    \addplot[smooth,  thick, green!50] table[x=time, y expr=\thisrow{Rpath_1}*10000]{\data}; \label{p1}
+    \addplot[smooth,  thick, violet!50] table[x=time, y expr=\thisrow{Rpath_2}*10000]{\data}; \label{p2}
+    \addplot[smooth,  thick, orange!50] table[x=time, y expr=\thisrow{Rpath_3}*10000]{\data}; \label{p3}
+
+    \addlegendentry{$p_1$}
+    \addlegendentry{$p_2$}
+    \addlegendentry{$p_3$}
+
+  \end{axis}
+  % \begin{axis}[
+  %   width = 8cm,
+  %   height = 3cm,
+  %   scale only axis,
+  %   axis y line*=right,
+  %   xmin = 0, xmax = 5,
+  %   legend cell align =left,
+  %   ymin = 0, ymax = 1.00,
+  %   ylabel = Utility,
+  %   xlabel = time (hours),
+  %   % legend pos = south east,
+  %   legend columns = 4,
+  %   ytick = {0, 0.5,  1},
+  %   legend style = {at = {(0.99, 1.05)}, anchor = south east}
+  %   ]
+
+  %   \addlegendimage{/pgfplots/refstyle=p1}\addlegendentry{$p_1$}
+  %   \addlegendimage{/pgfplots/refstyle=p2}\addlegendentry{$p_2$}
+  %   \addlegendimage{/pgfplots/refstyle=p3}\addlegendentry{$p_3$}
+
+  %   \addplot[smooth, thick, blue!50] table[each nth point=2, x=time, y=U_mean]{\data}; \label{$U$}
+
+  %   \addlegendentry{$U$}
+
+  % \end{axis}
+
+
+\end{tikzpicture}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
