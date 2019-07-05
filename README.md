@@ -1,4 +1,2 @@
-# Simulations for the AutoSAC Chain chapter
-
-Simulations used to evaluate the theory presented within the AutoSAC
-for a chain of nodes chapter in the thesis.
+# ICC18simulation
+Simulations for "Traffic Shaping and Resource Control for Autonomous Networks with End-to-End Deadlines" which was submitted to IEEE ICC'18

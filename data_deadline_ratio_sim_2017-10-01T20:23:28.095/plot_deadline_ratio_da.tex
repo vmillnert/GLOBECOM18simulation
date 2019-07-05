@@ -1,0 +1,43 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = 1.10}
+
+% load the path-wise input data
+\pgfplotstableread[col sep = tab]{discarded_overallocation.txt}\da
+
+\begin{document}
+\begin{tikzpicture}
+  \begin{axis}[
+    width = 4cm,
+    height = 3cm,
+    scale only axis,
+    xmode = log,
+    xmin = 9,
+    xmax = 1100,
+    % log ticks with fixed point,
+    % log ticks,
+    xtick = {10, 100, 1000},
+    xticklabels= {$10$, $10^2$, $10^3$},
+    legend cell align =left,
+    ymin = 0, ymax = 4,
+    ylabel = percent (\%),
+    xlabel = deadline ratio ($\Delta_i/D_i$),
+    legend columns = 2,
+    legend pos = north east
+    ]
+
+    \addplot[only marks,  green!50] table[x index = {0}, y index = {1}]{\da}; \label{d}
+    \addplot[only marks,  orange!50] table[x index = {0}, y index = {2}]{\da}; \label{a}
+
+    \addlegendentry{discarded}
+    \addlegendentry{overalloc.}
+  \end{axis}
+
+\end{tikzpicture}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
